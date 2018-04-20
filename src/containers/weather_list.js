@@ -8,13 +8,13 @@ class WeatherList extends Component {
         const name = cityData.city.name;
         const temps = cityData.list.map(weather => weather.main.temp);
         const pressures = cityData.list.map(weather => weather.main.pressure);
-        const humiditys = cityData.list.map(weather => weather.main.humidity);
+        const humidity = cityData.list.map(weather => weather.main.humidity);
         const  { lon, lat } = cityData.city.coord; //es6
         //const lat = cityData.city.coord.lat;
 
         console.log('lon', lon);
         return (
-            <tr key={name}>
+            <tr className="data-row" key={name}>
                 <td><GoogleMap lon={lon} lat ={lat}/></td>
                 <td>
                     <Chart data={temps} color={'orange'} units="K"/>
@@ -23,13 +23,21 @@ class WeatherList extends Component {
                     <Chart data={pressures} color={'green'} units="hPa"/>
                 </td>
                 <td>
-                    <Chart data={humiditys} color={'black'} units= "%"/>
+                    <Chart data={humidity} color={'coral'} units= "%"/>
                 </td>
             </tr>
         );
     }
     render() {
+        if(this.props.weather.length<1){
+            return (
+                <div>
+                    <h1> ENTER CITY NAME TO GET WEATHER FORECAST </h1>
+                </div>
+            );
+        }
         return (
+          
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -40,7 +48,8 @@ class WeatherList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.weather.map(this.renderWeather)}
+                    {this.props.weather.map(this.renderWeather)} 
+                    {console.log('weather', this.props.weather)}
                 </tbody>
             </table>
         )
